@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/(Forest Sound Effect) Forest SOUND EFFECT - Woods Ambience Background Wald SOUND EFFEKT SFX (320 kbps).mp3-aac0945ebe015236d6ca93e7ffa77504.mp3str"
+
+[deps]
+
+source_file="res://Data/Music/(Forest Sound Effect) Forest SOUND EFFECT - Woods Ambience Background Wald SOUND EFFEKT SFX (320 kbps).mp3"
+dest_files=[ "res://.import/(Forest Sound Effect) Forest SOUND EFFECT - Woods Ambience Background Wald SOUND EFFEKT SFX (320 kbps).mp3-aac0945ebe015236d6ca93e7ffa77504.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

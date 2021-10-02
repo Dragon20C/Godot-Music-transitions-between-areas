@@ -1,0 +1,117 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Data/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Data/Music/(Forest Sound Effect) Forest SOUND EFFECT - Woods Ambience Background Wald SOUND EFFEKT SFX (320 kbps).mp3" type="AudioStream" id=2]
+[ext_resource path="res://Data/Music/Waterfall - SFX - SOUND Effects (320 kbps).mp3" type="AudioStream" id=3]
+[ext_resource path="res://Data/Test Folder/Music Controller.gd" type="Script" id=4]
+[ext_resource path="res://Data/Test Folder/New_Environment.gd" type="Script" id=5]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 30, 30 )
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.709804, 0.192157, 0.192157, 1 )
+
+[sub_resource type="ConcavePolygonShape" id=3]
+data = PoolVector3Array( 15, 0, 15, -15, 0, 15, 15, 0, -15, -15, 0, 15, -15, 0, -15, 15, 0, -15 )
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 0.282353, 0.662745, 0.219608, 1 )
+
+[sub_resource type="Animation" id=5]
+resource_name = "Swap_Music"
+length = 20.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Music Controller/Music-Player-1:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Music Controller/Music-Player-1:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 8.5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, -80.0 ]
+}
+
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 0.298938, 3.37928, 14.5455 )
+
+[node name="Test - World" type="Spatial"]
+
+[node name="Ground" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="Ground"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground/StaticBody"]
+shape = SubResource( 3 )
+
+[node name="Ground2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 4 )
+
+[node name="StaticBody" type="StaticBody" parent="Ground2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground2/StaticBody"]
+shape = SubResource( 3 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.362666, 0.931919, 0, -0.931919, 0.362666, 0, 3, 0 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+collision_layer = 3
+collision_mask = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Swap_Music = SubResource( 5 )
+
+[node name="Music Controller" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="Music-Player-1" type="AudioStreamPlayer" parent="Music Controller"]
+stream = ExtResource( 2 )
+autoplay = true
+
+[node name="Tween" type="Tween" parent="Music Controller"]
+
+[node name="New_Environment" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, 0 )
+input_ray_pickable = false
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 5 )
+music = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="New_Environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.333028, 3, 0 )
+shape = SubResource( 8 )
+
+[node name="New_Environment2" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 0 )
+input_ray_pickable = false
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 5 )
+music = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="New_Environment2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.333028, 3, 0 )
+shape = SubResource( 8 )
+
+[connection signal="body_entered" from="New_Environment" to="New_Environment" method="_on_New_Environment_body_entered"]
+[connection signal="body_entered" from="New_Environment2" to="New_Environment2" method="_on_New_Environment_body_entered"]
